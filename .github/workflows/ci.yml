@@ -19,6 +19,8 @@ jobs:
         run: pip install -r requirements-dev.txt
       - name: Run tests
         run: pytest -v
+      - name: Failure simulation
+        run: python scripts/simulate.py
 
   docker-build:
     runs-on: ubuntu-latest

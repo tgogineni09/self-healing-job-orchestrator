@@ -119,6 +119,25 @@ pytest -v
 
 GitHub Actions runs the test suite and builds the Docker image on every push and pull request.
 
+## Failure simulation
+
+`scripts/simulate.py` pushes 1,000 jobs through the orchestrator with a fake clock and an in-memory
+store (no database or server needed): 70% healthy, 25% flaky (fail once or twice, then succeed) and
+5% that always fail. With the default seed it reports:
+
+```
+Transient failures healed automatically: 259 of 259
+Permanent failures contained as FAILED:  46 of 46
+Jobs left unsettled (pending/running/retrying): 0
+```
+
+```bash
+python scripts/simulate.py          # or: python scripts/simulate.py 5000
+```
+
+This checks the retry, backoff and containment logic at volume. It is not a throughput benchmark:
+it uses no database or network.
+
 ## Design decisions and limits
 
 - **Single worker.** One in-process loop keeps the logic easy to follow. Running several workers
