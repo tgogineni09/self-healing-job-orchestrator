@@ -22,6 +22,15 @@ jobs whose dependencies fail.
                 +-------------------+
 ```
 
+## Dashboard
+
+Grafana dashboard fed by the service's Prometheus metrics (success rate, retries, blocked jobs,
+status counts, latency and time-to-recover). Demo jobs include transient failures that heal through
+retries, a pipeline, and a permanent failure that blocks its dependant.
+
+![Dashboard overview](docs/dashboard-top.png)
+![Latency and time to recover](docs/dashboard-bottom.png)
+
 ## What it does
 
 | Behaviour | How it works |
