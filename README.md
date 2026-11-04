@@ -71,7 +71,7 @@ python scripts/demo.py          # creates sample jobs
 
 - API and docs: http://localhost:8000/docs
 - Prometheus: http://localhost:9090
-- Grafana dashboard: http://localhost:3000 (dashboard "Job Orchestrator Overview")
+- Grafana dashboard (opens on your machine once the stack is running): http://localhost:3000/d/orchestrator-overview/job-orchestrator-overview?refresh=5s
 
 ### Locally (SQLite)
 
