@@ -4,15 +4,33 @@
   "schemaVersion": 39,
   "version": 1,
   "refresh": "5s",
-  "time": { "from": "now-30m", "to": "now" },
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
   "panels": [
     {
       "id": 1,
       "type": "stat",
       "title": "Job success rate (5m)",
-      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 0 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
-      "fieldConfig": { "defaults": { "unit": "percentunit", "min": 0, "max": 1 }, "overrides": [] },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 0
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1
+        },
+        "overrides": []
+      },
       "targets": [
         {
           "refId": "A",
@@ -24,63 +42,259 @@
       "id": 2,
       "type": "stat",
       "title": "Auto-recovered stranded jobs (1h)",
-      "gridPos": { "h": 6, "w": 6, "x": 6, "y": 0 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 0
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
-        { "refId": "A", "expr": "sum(increase(orchestrator_jobs_recovered_total[1h]))" }
+        {
+          "refId": "A",
+          "expr": "sum(increase(orchestrator_jobs_recovered_total[1h]))"
+        }
       ]
     },
     {
       "id": 3,
       "type": "stat",
       "title": "Retries scheduled (1h)",
-      "gridPos": { "h": 6, "w": 6, "x": 12, "y": 0 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 12,
+        "y": 0
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
-        { "refId": "A", "expr": "sum(increase(orchestrator_jobs_retried_total[1h]))" }
+        {
+          "refId": "A",
+          "expr": "sum(increase(orchestrator_jobs_retried_total[1h]))"
+        }
       ]
     },
     {
       "id": 4,
       "type": "stat",
       "title": "Blocked by failed dependency (1h)",
-      "gridPos": { "h": 6, "w": 6, "x": 18, "y": 0 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
-        { "refId": "A", "expr": "sum(increase(orchestrator_jobs_blocked_total[1h]))" }
+        {
+          "refId": "A",
+          "expr": "sum(increase(orchestrator_jobs_blocked_total[1h]))"
+        }
       ]
     },
     {
       "id": 5,
       "type": "timeseries",
       "title": "Jobs by status",
-      "gridPos": { "h": 9, "w": 12, "x": 0, "y": 6 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 6
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
-        { "refId": "A", "expr": "orchestrator_jobs_by_status", "legendFormat": "{{status}}" }
-      ]
+        {
+          "refId": "A",
+          "expr": "orchestrator_jobs_by_status",
+          "legendFormat": "{{status}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SUCCEEDED"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "green"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "FAILED"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "BLOCKED"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "orange"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "RETRYING"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "yellow"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "PENDING"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "blue"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "RUNNING"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "purple"
+                }
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": 6,
       "type": "timeseries",
       "title": "Executions per minute by result",
-      "gridPos": { "h": 9, "w": 12, "x": 12, "y": 6 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 6
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "targets": [
         {
           "refId": "A",
           "expr": "sum by (result) (rate(orchestrator_jobs_executed_total[1m])) * 60",
           "legendFormat": "{{result}}"
         }
-      ]
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "success"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "green"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "failure"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              }
+            ]
+          }
+        ]
+      }
     },
     {
       "id": 7,
       "type": "timeseries",
       "title": "p95 job duration (s)",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 15 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
-      "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 15
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s"
+        },
+        "overrides": []
+      },
       "targets": [
         {
           "refId": "A",
@@ -92,9 +306,22 @@
       "id": 8,
       "type": "timeseries",
       "title": "p95 time to recover after first failure (s)",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 15 },
-      "datasource": { "type": "prometheus", "uid": "prometheus" },
-      "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 15
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s"
+        },
+        "overrides": []
+      },
       "targets": [
         {
           "refId": "A",
